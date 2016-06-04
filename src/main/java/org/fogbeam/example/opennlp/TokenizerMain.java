@@ -5,6 +5,8 @@ package org.fogbeam.example.opennlp;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.FileReader;
+import java.io.BufferedReader;
 
 import opennlp.tools.tokenize.Tokenizer;
 import opennlp.tools.tokenize.TokenizerME;
@@ -22,7 +24,9 @@ public class TokenizerMain
 		
 		// the model we trained
 		InputStream modelIn = new FileInputStream( "models/en-token.model" );
-		
+		FileReader f = new FileReader("ficheroEN");		
+        String cadena;
+
 		try
 		{
 			TokenizerModel model = new TokenizerModel( modelIn );
@@ -30,15 +34,23 @@ public class TokenizerMain
 			Tokenizer tokenizer = new TokenizerME(model);
 			
 				/* note what happens with the "three depending on which model you use */
-			String[] tokens = tokenizer.tokenize
+			/*String[] tokens = tokenizer.tokenize
 					(  "A ranger journeying with Oglethorpe, founder of the Georgia Colony, " 
 							+ " mentions \"three Mounts raised by the Indians over three of their Great Kings" 
-							+ " who were killed in the Wars.\"" );
+							+ " who were killed in the Wars.\"" );*/
+	        BufferedReader b = new BufferedReader(f);
+			//String[] tokens = tokenizer.tokenize(  b );
 			
-			for( String token : tokens )
-			{
-				System.out.println( token );
-			}
+	        while((cadena = b.readLine())!=null) {
+	        	String[] tokens = tokenizer.tokenize(  cadena );
+				for( String token : tokens )
+				{
+					System.out.println( token );
+				}
+	        	//System.out.println(cadena);
+	        }
+			
+
 			
 		}
 		catch( IOException e )

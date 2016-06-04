@@ -18,7 +18,9 @@ public class ChunkerMain
 		ChunkerModel model = null;
 		try
 		{
-			modelIn = new FileInputStream( "models/en-chunker.model" );
+//			modelIn = new FileInputStream( "models/en-chunker.model" );
+			modelIn = new FileInputStream( "models/en-token.model" );
+
 			model = new ChunkerModel( modelIn );
 			
 			ChunkerME chunker = new ChunkerME(model);
