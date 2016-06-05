@@ -3,6 +3,7 @@ package org.fogbeam.example.opennlp;
 
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.FileReader;
@@ -11,6 +12,7 @@ import java.io.BufferedReader;
 import opennlp.tools.tokenize.Tokenizer;
 import opennlp.tools.tokenize.TokenizerME;
 import opennlp.tools.tokenize.TokenizerModel;
+import opennlp.tools.util.InvalidFormatException;
 
 
 
@@ -18,43 +20,57 @@ import opennlp.tools.tokenize.TokenizerModel;
 
 public class TokenizerMain
 {
+	//Aquí se lee el fichero y se almacena en string
+	public static String fichero_a_cadena(String nombreArchivo) throws IOException{
+		String cadena,aux;
+        StringBuilder cadenaBuilder = new StringBuilder();
+		FileReader f = new FileReader(nombreArchivo);
+        BufferedReader buffer = new BufferedReader(f);
+        while((aux = buffer.readLine())!=null) {
+        	cadenaBuilder.append(aux);	
+        }
+        cadena=cadenaBuilder.toString();
+
+		
+		return cadena;
+	}
+	
+	public static String[] hacerToken(String cadena,InputStream modelIn) throws InvalidFormatException, IOException{
+		
+		//Aquí se convierte en token
+		TokenizerModel model = new TokenizerModel( modelIn );
+		Tokenizer tokenizer = new TokenizerME(model);
+		
+
+    	String[] tokens = tokenizer.tokenize(  cadena );		
+		return tokens;
+	}
+	
+
+	
 	public static void main( String[] args ) throws Exception
 	{
 		
 		// the provided model
 		// InputStream modelIn = new FileInputStream( "models/en-token.bin" );
 
-		
 		// the model we trained
 		InputStream modelIn = new FileInputStream( "models/en-token.model" );
-		FileReader f = new FileReader("ficheroEN");		
-        String cadena;
+		InputStream modelIn1 = new FileInputStream( "models/en-token.model" );
 
+        //Leemos fichero y transformamos a cadena
+        String cadena;
+        cadena=fichero_a_cadena("ficheroEN");
+        
 		try
 		{
-			TokenizerModel model = new TokenizerModel( modelIn );
-		
-			Tokenizer tokenizer = new TokenizerME(model);
-			
-				/* note what happens with the "three depending on which model you use */
-			/*String[] tokens = tokenizer.tokenize
-					(  "A ranger journeying with Oglethorpe, founder of the Georgia Colony, " 
-							+ " mentions \"three Mounts raised by the Indians over three of their Great Kings" 
-							+ " who were killed in the Wars.\"" );*/
-	        BufferedReader b = new BufferedReader(f);
-			//String[] tokens = tokenizer.tokenize(  b );
-			
-	        while((cadena = b.readLine())!=null) {
-	        	String[] tokens = tokenizer.tokenize(  cadena );
-				for( String token : tokens )
-				{
-					System.out.println( token );
-				}
-	        	//System.out.println(cadena);
-	        }
-			
+        	String[] tokens = hacerToken(cadena,modelIn);
 
-			
+		    for( String token : tokens )
+			{
+				System.out.println( token );
+			}
+
 		}
 		catch( IOException e )
 		{
@@ -75,4 +91,6 @@ public class TokenizerMain
 		}
 		System.out.println( "\n-----\ndone" );
 	}
+	
+	
 }
