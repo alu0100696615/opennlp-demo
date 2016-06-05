@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="TokenizerTest" project="nlp-demo1" tests="2" started="2" failures="0" errors="0" ignored="0">
+  <testsuite name="org.fogbeam.example.opennlp.TokenizerTest" time="0.0">
+    <testcase name="mismaCadena" classname="org.fogbeam.example.opennlp.TokenizerTest" time="0.0"/>
+    <testcase name="ficheroVacio" classname="org.fogbeam.example.opennlp.TokenizerTest" time="0.0"/>
+  </testsuite>
+</testrun>
